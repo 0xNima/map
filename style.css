@@ -3,7 +3,45 @@
 html, body {
   margin: 0;
   height: 100%;
+  overflow: hidden;
 }
+
+.toggle-drawer {
+  position: relative;
+  left: calc(-1.875em);
+  top: .5em;
+
+  width: 1.375em;
+  height: 1.375em;
+}
+
+.toggle-drawer button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.drawer {
+  height: 100vh;
+  width: 300px;
+  position: absolute;
+  
+  z-index: 5;
+
+  background-color: white;
+}
+
+.show {
+  right: 0;
+  transition: right ease .5s;
+}
+
+.hide {
+  right: -300px;
+  transition: right ease .5s;
+}
+
 #map {
   position: absolute;
   top: 0;
