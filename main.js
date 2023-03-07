@@ -22,6 +22,7 @@ const map = new Map({
 
 
 const drawer = document.querySelector('.drawer');
+const drawerIcon = document.querySelector('.toggle-drawer svg');
 
 let showDrawer = 0;
 
@@ -29,10 +30,26 @@ document.querySelector('.toggle-drawer').addEventListener('click', () => {
   showDrawer = 1 ^ showDrawer;
   if(showDrawer) {
     drawer.classList.replace('hide', 'show');
+    drawerIcon.classList.replace('rotate-0', 'rotate-180');
   } else {
     drawer.classList.replace('show', 'hide');
+    drawerIcon.classList.replace('rotate-180', 'rotate-0');
   }
-});
+}); 
+
+
+const showMoreIcons = document.querySelectorAll('.section svg');
+for(const icon of showMoreIcons) {
+  const sibling = icon.previousElementSibling;
+  icon.addEventListener('click', () => {
+    if(icon.classList.replace('rotate-0', 'rotate-180')) {
+      sibling.classList.replace('up', 'down');
+    } else {
+      sibling.classList.replace('down', 'up');
+      icon.classList.replace('rotate-180', 'rotate-0');
+    }
+  });
+}
 
 
 
