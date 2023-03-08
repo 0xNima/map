@@ -85,10 +85,8 @@ p, h1, h2, h3, h4, h5, h6 {
   background-color: var(--border-color);
 }
 
-.content {
+.layers {
   width: 100%;
-
-  position: relative;
 
   display: flex;
   flex-direction: column;
@@ -97,10 +95,12 @@ p, h1, h2, h3, h4, h5, h6 {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 
-  border-bottom: 1px solid var(--border-color);
+  gap: 1em;
+
+  padding: 5px 0;
 }
 
-.content::-webkit-scrollbar {
+.layers::-webkit-scrollbar {
   display: none;
 }
 
@@ -169,16 +169,75 @@ p, h1, h2, h3, h4, h5, h6 {
   background-color: var(--border-color);
 }
 
+.point {
+    background:
+    linear-gradient(rgb(0, 200, 255), transparent),
+    linear-gradient(to top left, rgb(0, 162, 255), transparent),
+    linear-gradient(to top right, rgb(0, 188, 226), transparent);
+}
+
 .line {
   background:
-        linear-gradient(rgb(9, 255, 0), transparent),
-        linear-gradient(to top left, rgb(100, 255, 100), transparent),
-        linear-gradient(to top right, rgb(72, 255, 0), transparent);
+    linear-gradient(rgb(9, 255, 0), transparent),
+    linear-gradient(to top left, rgb(100, 255, 100), transparent),
+    linear-gradient(to top right, rgb(72, 255, 0), transparent);
 }
 
 .polygon {
   background:
-        linear-gradient(rgb(255, 152, 35), transparent),
-        linear-gradient(to top left, rgb(255, 208, 52), transparent),
-        linear-gradient(to top right, rgb(255, 157, 0), transparent);
+    linear-gradient(rgb(255, 0, 174), transparent),
+    linear-gradient(to top left, rgb(255, 158, 213), transparent),
+    linear-gradient(to top right, rgb(255, 0, 179), transparent);
+}
+
+.circle {
+  background:
+    linear-gradient(rgb(255, 152, 35), transparent),
+    linear-gradient(to top left, rgb(255, 208, 52), transparent),
+    linear-gradient(to top right, rgb(255, 157, 0), transparent);
+}
+
+.modify {
+    background:
+      linear-gradient(rgb(38, 255, 0), transparent),
+      linear-gradient(to top left, rgb(59, 255, 33), transparent),
+      linear-gradient(to top right, rgb(17, 255, 0), transparent);
+}
+
+.clear {
+  background:
+    linear-gradient(rgb(255, 30, 30), transparent),
+    linear-gradient(to top left, rgb(255, 126, 126), transparent),
+    linear-gradient(to top right, rgb(255, 0, 0), transparent);
+}
+
+.measure-linestring {
+  background:
+    linear-gradient(rgb(52, 1, 255), transparent),
+    linear-gradient(to top left, rgb(77, 124, 255), transparent),
+    linear-gradient(to top right, rgb(21, 0, 255), transparent);
+}
+
+.measure-polygon {
+  background:
+    linear-gradient(rgb(255, 153, 0), transparent),
+    linear-gradient(to top left, rgb(255, 204, 0), transparent),
+    linear-gradient(to top right, rgb(255, 136, 0), transparent);
+}
+
+
+
+.layer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  
+  gap: .5em;
+  cursor: pointer;
+
+  width: 100%;
+}
+
+.layer:hover {
+  background-color: var(--border-color);
 }
