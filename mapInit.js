@@ -7,6 +7,7 @@ import { styleFunction } from './mapFunctions';
 import { API_KEY } from './env';
 
 
+
 const raster = new TileLayer({
   source: new OSM(),
   title: 'Base OSM Layer',
@@ -63,9 +64,6 @@ const measureLayer = new VectorLayer({
 
 export const select = new Select();
 
-select.on('select', (e) => {
-  console.log(e.selected);
-})
 
 export const modify = new Modify({
   features: select.getFeatures(),

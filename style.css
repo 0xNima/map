@@ -141,7 +141,7 @@ p, h1, h2, h3, h4, h5, h6 {
   background-color: var(--border-color);
 }
 
-.layers {
+.layers, .queries {
   width: 100%;
 
   display: flex;
@@ -156,7 +156,7 @@ p, h1, h2, h3, h4, h5, h6 {
   padding: 5px 0;
 }
 
-.layers::-webkit-scrollbar {
+.layers::-webkit-scrollbar, .queries::-webkit-scrollbar {
   display: none;
 }
 
@@ -292,7 +292,7 @@ p, h1, h2, h3, h4, h5, h6 {
 
 
 
-.layer {
+.layer , .query{
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -303,7 +303,7 @@ p, h1, h2, h3, h4, h5, h6 {
   width: 100%;
 }
 
-.layer:hover {
+.layer:hover, .query:hover {
   background-color: var(--border-color);
 }
 
@@ -312,4 +312,28 @@ p, h1, h2, h3, h4, h5, h6 {
     linear-gradient(rgb(237, 237, 237), transparent),
     linear-gradient(to top left, rgb(192, 192, 192), transparent),
     linear-gradient(to top right, rgb(192, 192, 192), transparent);
+}
+
+.queries {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sendQuery {
+  border-radius: 2px;
+  padding: 10px 15px;
+  border: none;
+  font-size: medium;
+}
+
+.sendQuery:hover {
+  background:
+    linear-gradient(rgb(237, 237, 237), transparent),
+    linear-gradient(to top left, rgb(192, 192, 192), transparent),
+    linear-gradient(to top right, rgb(192, 192, 192), transparent);
+}
+
+.sendQuery:active {
+  background-color: var(--border-color);
 }
