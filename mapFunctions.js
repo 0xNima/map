@@ -94,12 +94,17 @@ const removeInteractions = () => {
   map.removeInteraction(select);
   map.removeInteraction(draw);
   map.removeInteraction(select);
+  map.getTargetElement().style.cursor = '';
 }
 
 export const addInteraction = (type) => {
   removeInteractions();
 
   switch(type) {
+    case 'Select':
+      map.getTargetElement().style.cursor = 'pointer';
+      map.addInteraction(select);
+      break;
     case 'Point':
     case 'LineString':
     case 'Polygon':

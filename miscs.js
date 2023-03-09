@@ -20,3 +20,14 @@ export const createLayer = (layer) => {
   
     return node;
 }
+
+export const selectThis = (elem) => {
+  const tools = document.querySelectorAll('div[data-type]');
+  for(const tool of tools) {
+    if(tool === elem) {
+      tool.classList.add('selected');
+    } else {
+      tool.classList.remove('selected');
+    }
+  }
+}

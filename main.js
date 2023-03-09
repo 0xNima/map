@@ -1,6 +1,6 @@
 import './style.css';
-import {vectorSource, mapLayers, measureSource} from './mapInit';
-import { createLayer } from './miscs';
+import {vectorSource, mapLayers, measureSource, map} from './mapInit';
+import { createLayer, selectThis } from './miscs';
 import { addInteraction, draw } from './mapFunctions';
 
 
@@ -8,9 +8,11 @@ let showDrawer = 0;
 
 const drawer = document.querySelector('.drawer');
 const drawerIcon = document.querySelector('.toggle-drawer svg');
+// const sideTools = document.querySelector('.side-tools');
 const layersContainer = document.querySelector('.layers');
 const tools = document.querySelectorAll('div[data-type]');
 const clearBtn = document.querySelector('div[class="tools-icon"]:has(> svg[class="clear"])');
+const sideClearBtn = document.querySelector('div[class="clear"]');
 
 
 // add event listeners
@@ -25,6 +27,12 @@ document.querySelector('.toggle-drawer').addEventListener('click', () => {
   }
 });
 
+// disable drawing mode when click ESC
+window.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape') {
+    draw.removeLastPoint();
+  }
+});
 
 // add layers to drawer
 for(const layer of mapLayers) {
@@ -39,24 +47,23 @@ for(const tool of tools) {
 
   tool.addEventListener('click', () => {
     addInteraction(type);
+    selectThis(tool);
   });
 }
 
-// disable drawing mode when click ESC
-window.addEventListener('keydown', (e) => {
-  if(e.key === 'Escape') {
-    draw.removeLastPoint();
-  }
-});
-
-
-// add clear btn's handler
-clearBtn.addEventListener('click', () => {
+const clear = () => {
   vectorSource.getFeatures().forEach(feature => {
     vectorSource.removeFeature(feature);
   });
   measureSource.getFeatures().forEach(feature => {
     measureSource.removeFeature(feature);
   });
-});
+};
 
+// add clear btn's handler
+clearBtn.addEventListener('click', clear);
+sideClearBtn.addEventListener('click', clear);
+
+map.on('loadstart', () => {
+  drawer.style.display = 'block';
+});

@@ -10,7 +10,7 @@ import { API_KEY } from './env';
 const raster = new TileLayer({
   source: new OSM(),
   title: 'Base OSM Layer',
-  visible: true,
+  visible: false,
 });
 
 const maptiler = new TileLayer({
@@ -19,7 +19,7 @@ const maptiler = new TileLayer({
     maxZoom: 20,
   }),
   title: 'Maptiler Satelite Layer',
-  visible: true,
+  visible: false,
 });
 
 const arcgisOnline = new TileLayer({
@@ -37,7 +37,7 @@ const maptilerStreet = new TileLayer({
       maxZoom: 20,
     }),
     title: 'Maptiler Street Layer',
-    visible: true,
+    visible: false,
 });
 
 export const vectorSource = new VectorSource({wrapX: false});
@@ -63,14 +63,21 @@ const measureLayer = new VectorLayer({
 
 export const select = new Select();
 
+select.on('select', (e) => {
+  console.log(e.selected);
+})
+
 export const modify = new Modify({
   features: select.getFeatures(),
-  source: vectorSource,
   style: modifyStyle,
 });
 
 export const snap = new Snap({
   source: vectorSource,
+});
+
+export const measureSnap = new Snap({
+  source: measureSource,
 });
 
 export const mapLayers = [raster, maptilerStreet, maptiler, arcgisOnline, vector, measureLayer];

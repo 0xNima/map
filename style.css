@@ -1,4 +1,9 @@
 @import "node_modules/ol/ol.css";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+body {
+  font-family: "Open Sans", sans-serif;
+}
 
 html, body {
   margin: 0;
@@ -35,12 +40,63 @@ p, h1, h2, h3, h4, h5, h6 {
   border-radius: 2px;
 }
 
+.side-tools {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  position: absolute;
+  left: -65px;
+  top: 70px;
+
+  width: 60px;
+  
+  gap: .5em;
+
+  padding: 0;
+
+  padding-top: .5em;
+
+  background-color: rgba(0, 0, 0, .5);
+}
+
+.side-tools > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 60px;
+  height: 60px;
+
+  border-radius: 2px;
+}
+
+.side-tools > div:hover {
+  background-color: white;
+  animation: toggle .5s 1 linear;
+}
+
+@keyframes toggle {
+  0%   {
+    transform: rotate(10deg);
+  }
+  25%  {
+    transform: rotate(-10deg);
+  }
+  50%  {
+    transform: rotate(10deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
 
 .drawer {
   height: 100vh;
   width: var(--drawer-width);
   position: absolute;
-  
+
   z-index: 5;
 
   background-color: white;
@@ -156,6 +212,8 @@ p, h1, h2, h3, h4, h5, h6 {
   gap: .5em;
   cursor: pointer;
 
+  padding: 5px 0;
+
   width: 100%;
 }
 
@@ -167,6 +225,13 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .tools-icon:hover {
   background-color: var(--border-color);
+}
+
+.select {
+  background:
+    linear-gradient(rgb(255, 153, 0), transparent),
+    linear-gradient(to top left, rgb(255, 204, 0), transparent),
+    linear-gradient(to top right, rgb(255, 136, 0), transparent);
 }
 
 .point {
@@ -240,4 +305,11 @@ p, h1, h2, h3, h4, h5, h6 {
 
 .layer:hover {
   background-color: var(--border-color);
+}
+
+.selected {
+  background:
+    linear-gradient(rgb(237, 237, 237), transparent),
+    linear-gradient(to top left, rgb(192, 192, 192), transparent),
+    linear-gradient(to top right, rgb(192, 192, 192), transparent);
 }
