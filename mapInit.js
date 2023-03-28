@@ -4,41 +4,15 @@ import {OSM, Vector as VectorSource, XYZ} from 'ol/source';
 import {Modify, Select, Snap} from 'ol/interaction';
 import { defaultStyle, modifyStyle } from './mapSyles';
 import { styleFunction } from './mapFunctions';
-import { API_KEY } from './env';
 
 
-
-const raster = new TileLayer({
-  source: new OSM(),
-  title: 'Base OSM Layer',
-  visible: false,
-});
-
-const maptiler = new TileLayer({
+const googleMap = new TileLayer({
   source: new XYZ({
-    url: 'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + API_KEY,
+    url: 'http://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}',
     maxZoom: 20,
   }),
-  title: 'Maptiler Satelite Layer',
-  visible: false,
-});
-
-const arcgisOnline = new TileLayer({
-    source: new XYZ({
-      url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-      maxZoom: 20,
-    }),
-    title: 'ArcGIS online Layer',
-    visible: true,
-});
-
-const maptilerStreet = new TileLayer({
-    source: new XYZ({
-      url: 'https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=' + API_KEY,
-      maxZoom: 20,
-    }),
-    title: 'Maptiler Street Layer',
-    visible: false,
+  title: 'Google Map',
+  visible: true,
 });
 
 export const vectorSource = new VectorSource({wrapX: false});
@@ -78,7 +52,7 @@ export const measureSnap = new Snap({
   source: measureSource,
 });
 
-export const mapLayers = [raster, maptilerStreet, maptiler, arcgisOnline, vector, measureLayer];
+export const mapLayers = [googleMap, vector, measureLayer];
 
 export const map = new Map({
   target: 'map',
@@ -87,4 +61,5 @@ export const map = new Map({
     center: [1000000, 6000000],
     zoom: 5
   }),
+  controls: []
 });

@@ -1,32 +1,42 @@
 import './style.css';
 import {vectorSource, mapLayers, measureSource, map, select} from './mapInit';
-import { createLayer, selectThis } from './miscs';
+import { createLayer } from './miscs';
 import { addInteraction, draw } from './mapFunctions';
 import { sendQuery } from './api';
 
 
-let showDrawer = 0;
+let menuToggled = 0;
+let toolToggled = 0;
 
-const drawer = document.querySelector('.drawer');
-const drawerIcon = document.querySelector('.toggle-drawer svg');
-const layersContainer = document.querySelector('.layers');
-const tools = document.querySelectorAll('div[data-type]');
-const clearBtn = document.querySelector('div[class="tools-icon"]:has(> svg[class="clear"])');
-const sideClearBtn = document.querySelector('div[class="clear"]');
-const queryCheckboxes = document.querySelectorAll('.query input');
-const queryBtn = document.querySelector('.sendQuery');
+const leftSideBar = document.querySelector('.left');
+const rows = document.querySelectorAll('.row[data-type]');
 
-// add event listeners
-document.querySelector('.toggle-drawer').addEventListener('click', () => {
-  showDrawer = 1 ^ showDrawer;
-  if(showDrawer) {
-    drawer.classList.replace('hide', 'show');
-    drawerIcon.classList.replace('rotate-0', 'rotate-180');
+
+// add menu click listener
+document.querySelector('.menu').addEventListener('click', () => {
+  menuToggled ^= 1;
+  
+  if (menuToggled) {
+    leftSideBar.classList.replace('left-hide', 'left-show');
   } else {
-    drawer.classList.replace('show', 'hide');
-    drawerIcon.classList.replace('rotate-180', 'rotate-0');
+    leftSideBar.classList.replace('left-show', 'left-hide');
+
+    if (toolToggled) {
+      toolToggled ^= 1;
+      leftSideBar.classList.remove('left-narrow');
+    }
   }
 });
+
+// add row click listener
+for(const row of rows) {
+  const route = parseInt(row.dataset.type);
+
+  row.addEventListener('click', () => {
+    toolToggled ^= 1;
+    leftSideBar.classList.add('left-narrow');
+  });
+}
 
 // disable drawing mode when click ESC
 window.addEventListener('keydown', (e) => {
@@ -35,22 +45,15 @@ window.addEventListener('keydown', (e) => {
   }
 });
 
-// add layers to drawer
-for(const layer of mapLayers) {
-  layersContainer.appendChild(
-    createLayer(layer)
-  );
-}
-
 // add draw listeners
-for(const tool of tools) {
-  const {type} = tool.dataset;
+// for(const tool of tools) {
+//   const {type} = tool.dataset;
 
-  tool.addEventListener('click', () => {
-    addInteraction(type);
-    selectThis(tool);
-  });
-}
+//   tool.addEventListener('click', () => {
+//     addInteraction(type);
+//     selectThis(tool);
+//   });
+// }
 
 const clear = () => {
   vectorSource.getFeatures().forEach(feature => {
@@ -61,39 +64,6 @@ const clear = () => {
   });
 };
 
-// add clear btn's handler
-clearBtn.addEventListener('click', clear);
-sideClearBtn.addEventListener('click', clear);
-
-
-// add listener to Query btn
-queryBtn.addEventListener('click', () => {
-  const queries = [];
-  for(const checkbox of queryCheckboxes) {
-    if(checkbox.checked) {
-      queries.push(checkbox.dataset.query);
-      checkbox.checked = false;
-    }
-  }
-
-  const selected = select.getFeatures().getArray();
-
-  if(queries.length && selected.length) {
-
-    const promises = selected.map(feature => {
-      return sendQuery({
-        queries: queries,
-        coordinates: feature.getGeometry().getCoordinates(),
-      })
-    });
-
-    Promise.all(promises).then(result => {
-
-    });
-  }
-});
-
-
 map.on('loadstart', () => {
-  drawer.style.display = 'block';
+  document.querySelector('.content').style.display = "block";
 });

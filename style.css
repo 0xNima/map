@@ -19,107 +19,12 @@ p, h1, h2, h3, h4, h5, h6 {
 :root {
   --drawer-width: 300px;
   --border-color: rgb(221, 221, 221);
-}
-
-.toggle-drawer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  
-  position: absolute;
-  left: -65px;
-  top: 10px;
-
-  width: 60px;
-  height: 60px;
-
-  background-color: white;
-  border: 1px solid var(--border-color);
-
-  border-radius: 2px;
-}
-
-.side-tools {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  
-  position: absolute;
-  left: -65px;
-  top: 70px;
-
-  width: 60px;
-  
-  gap: .5em;
-
-  padding: 0;
-
-  padding-top: .5em;
-
-  background-color: rgba(0, 0, 0, .5);
-}
-
-.side-tools > div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 60px;
-  height: 60px;
-
-  border-radius: 2px;
-}
-
-.side-tools > div:hover {
-  background-color: white;
-  animation: toggle .5s 1 linear;
-}
-
-@keyframes toggle {
-  0%   {
-    transform: rotate(10deg);
-  }
-  25%  {
-    transform: rotate(-10deg);
-  }
-  50%  {
-    transform: rotate(10deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-}
-
-.drawer {
-  height: 100vh;
-  width: var(--drawer-width);
-  position: absolute;
-
-  z-index: 5;
-
-  background-color: white;
-}
-
-.show {
-  right: 0;
-  transition: right ease .5s;
-}
-
-.hide {
-  right: calc(0px - var(--drawer-width));
-  transition: right ease .5s;
-}
-
-.rotate-180 {
-  transform: rotate(180deg);
-  transition: transform ease 1s;
-}
-
-.rotate-0 {
-  transform: rotate(0deg);
-  transition: transform ease 1s;
+  --icon-green: rgb(0, 128, 0);
+  --icon-green-opace: rgb(0, 128, 0, 0.4);
+  --nav-active: rgb(0, 150, 0);
+  --nav-hover: rgb(0, 128, 0);
+  --nav-bg: rgb(0, 128, 0, 0.4);
+  --left-sidebar-w: 300px;
 }
 
 #map {
@@ -129,211 +34,198 @@ p, h1, h2, h3, h4, h5, h6 {
   width: 100%;
 }
 
-.section {
+nav {
+  position: fixed;
+  top: 0;
+  
   width: 100%;
+  height: 70px;
+  
   display: flex;
-  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  background-color: var(--nav-bg);
 }
 
-.title {
-  text-align: right;
-  padding: 10px;
-  background-color: var(--border-color);
-}
+nav a {
+  color: white;
 
-.layers, .queries {
-  width: 100%;
-
-  display: flex;
-  flex-direction: column;
-
-  overflow: scroll;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-
-  gap: 1em;
-
-  padding: 5px 0;
-}
-
-.layers::-webkit-scrollbar, .queries::-webkit-scrollbar {
-  display: none;
-}
-
-.show-more {
-  position: relative;
-  bottom: 12px;
-  align-self: center;
-}
-
-.down {
-  height: 250px;
-  transition: height ease 1s;
-}
-
-.up {
-  height: 0;
-  transition: height ease 1s; 
-}
-
-.scrollable {
+  padding: 0 10px;
   height: 100%;
-  overflow-y: scroll;
-  overflow-x: hidden;
+
+  display: flex;
+  align-items: center;
 }
 
-.scrollable::-webkit-scrollbar {
+nav a:hover {
+  background-color: var(--nav-hover);
+
+  cursor: pointer;
+}
+
+nav a:active {
+  background-color: var(--nav-active);
+}
+
+.menu {
+  left: 0;
+  top: 75px;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.content-start {
+  justify-content: start;
+}
+
+.content-center {
+  justify-content: center;
+}
+
+.content-end {
+  justify-content: end;
+}
+
+.items-start {
+  align-items: start;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.items-end {
+  align-items: end;
+}
+
+.left {
+  left: calc(0px - var(--left-sidebar-w));
+  top: 108px /*75px<menu-icon-top> + 32px<menu-icon-height> + 1px<skip>)*/;
+  height: 100vh;
+  width: var(--left-sidebar-w);
+  background-color: white;
+  padding: 0;
+  z-index: 10;
+}
+
+.tool-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 32px;
+  right: 0;
+  background-color: white;
   display: none;
 }
 
-.scrollable {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+.left-hide {
+  left: calc(0px - var(--left-sidebar-w));
+  transition: left .5s ease;
 }
 
-.tools {
-  width: 100%;
+.left-narrow {
+  left: 0px;
+  transition: left .5s ease;
+  background-color: var(--icon-green-opace);
+}
+
+.left-narrow .tool-container {
+  display: flex;
+}
+
+.left-narrow .row[data-type] {
+  width: fit-content;
+}
+
+.left-narrow .row > :last-child {
+  display: none;
+}
+
+.left-show {
+  left: 0px;
+  transition: left .5s ease;
+}
+
+.row {
+  gap: 1.5rem;
   padding: 5px 0;
-  height: fit-content;
-  gap: 1em;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
+  position: relative;
 }
 
-.tools-icon {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  
-  gap: .5em;
+.row[data-type]:hover {
+  background-color: var(--icon-green-opace);
   cursor: pointer;
-
-  padding: 5px 0;
-
-  width: 100%;
 }
 
-.tools-icon svg {
-    background-blend-mode: screen;
-  border-radius: 2px;
-  margin: 0 5px;
-}
-
-.tools-icon:hover {
-  background-color: var(--border-color);
-}
-
-.select {
-  background:
-    linear-gradient(rgb(255, 153, 0), transparent),
-    linear-gradient(to top left, rgb(255, 204, 0), transparent),
-    linear-gradient(to top right, rgb(255, 136, 0), transparent);
-}
-
-.point {
-    background:
-    linear-gradient(rgb(0, 200, 255), transparent),
-    linear-gradient(to top left, rgb(0, 162, 255), transparent),
-    linear-gradient(to top right, rgb(0, 188, 226), transparent);
-}
-
-.line {
-  background:
-    linear-gradient(rgb(9, 255, 0), transparent),
-    linear-gradient(to top left, rgb(100, 255, 100), transparent),
-    linear-gradient(to top right, rgb(72, 255, 0), transparent);
-}
-
-.polygon {
-  background:
-    linear-gradient(rgb(255, 0, 174), transparent),
-    linear-gradient(to top left, rgb(255, 158, 213), transparent),
-    linear-gradient(to top right, rgb(255, 0, 179), transparent);
-}
-
-.circle {
-  background:
-    linear-gradient(rgb(255, 152, 35), transparent),
-    linear-gradient(to top left, rgb(255, 208, 52), transparent),
-    linear-gradient(to top right, rgb(255, 157, 0), transparent);
-}
-
-.modify {
-    background:
-      linear-gradient(rgb(38, 255, 0), transparent),
-      linear-gradient(to top left, rgb(59, 255, 33), transparent),
-      linear-gradient(to top right, rgb(17, 255, 0), transparent);
-}
-
-.clear {
-  background:
-    linear-gradient(rgb(255, 30, 30), transparent),
-    linear-gradient(to top left, rgb(255, 126, 126), transparent),
-    linear-gradient(to top right, rgb(255, 0, 0), transparent);
-}
-
-.measure-linestring {
-  background:
-    linear-gradient(rgb(52, 1, 255), transparent),
-    linear-gradient(to top left, rgb(77, 124, 255), transparent),
-    linear-gradient(to top right, rgb(21, 0, 255), transparent);
-}
-
-.measure-polygon {
-  background:
-    linear-gradient(rgb(255, 153, 0), transparent),
-    linear-gradient(to top left, rgb(255, 204, 0), transparent),
-    linear-gradient(to top right, rgb(255, 136, 0), transparent);
-}
-
-
-
-.layer , .query{
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+.row.head {
+  gap: .1rem;
+  padding: 0;
   
-  gap: .5em;
-  cursor: pointer;
+  height: 42px;
+}
 
+.row.head .icon {
+  height: inherit;
+  background-color: var(--icon-green);
+}
+
+.row.head .title {  
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  margin: auto;
+  
+  z-index: 5;
+
+  background-color: var(--icon-green);
+}
+
+.row.head .below-title {
   width: 100%;
+  height: 100%;
+  background-color: var(--icon-green);
 }
 
-.layer:hover, .query:hover {
-  background-color: var(--border-color);
+.right {
+  right: 0;
 }
 
-.selected {
-  background:
-    linear-gradient(rgb(237, 237, 237), transparent),
-    linear-gradient(to top left, rgb(192, 192, 192), transparent),
-    linear-gradient(to top right, rgb(192, 192, 192), transparent);
+svg {
+  padding: 4px;
 }
 
-.queries {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.menu svg {
+  background-color: var(--icon-green-opace);
 }
 
-.sendQuery {
-  border-radius: 2px;
-  padding: 10px 15px;
-  border: none;
-  font-size: medium;
+.menu svg:hover {
+  background-color: var(--icon-green);
+
+  cursor: pointer;
 }
 
-.sendQuery:hover {
-  background:
-    linear-gradient(rgb(237, 237, 237), transparent),
-    linear-gradient(to top left, rgb(192, 192, 192), transparent),
-    linear-gradient(to top right, rgb(192, 192, 192), transparent);
+.menu svg:active {
+  background-color: var(--nav-active);
 }
 
-.sendQuery:active {
-  background-color: var(--border-color);
+svg:hover path {
+ /* fill: var(--icon-green); */
 }
