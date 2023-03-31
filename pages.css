@@ -1,0 +1,100 @@
+.visible {
+    display: flex;
+}
+
+.hidden {
+    display: none;
+}
+
+.divider {
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    width: 100%;
+}
+
+/* draw page styles */
+.toolset {
+    width: 80%;
+}
+
+.toolset a {
+    padding: 5px 10px;
+    background-color: var(--icon-green-opace);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-right: none;
+    font-size: .9rem;
+}
+
+.toolset a:hover {
+    background-color: var(--icon-green-opace2x);
+    cursor: pointer;
+}
+
+.toolset a:first-child {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.toolset a:last-child {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-right: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.draw-selected {
+    background-color: white !important;
+}
+
+.label-text {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: red;
+    border-radius: 5px;
+    padding: 2px 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.draw-labels {
+    width: 80%;
+}
+
+.draw-label {
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+}
+
+.draw-label input, .draw-label-header input {
+    margin: 0;
+}
+
+.draw-page .divider {
+    margin: 20px 0;
+}
+
+.draw-label-header {
+    width: 80%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 20px;
+
+    color: rgba(0, 0, 0, 0.3);
+}
+
+.draw-label-header + .divider {
+    margin: 2px 0;
+}
+
+.draw-label-header svg {
+    margin-left: auto;
+}
+
+.trash path {
+    fill: red;
+}
+
+.trash path:hover {
+    fill: rgb(187, 0, 0);
+}

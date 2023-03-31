@@ -89,7 +89,7 @@ export function styleFunction(feature, drawType, tip) {
 }
 
 
-const removeInteractions = () => {
+export const removeInteractions = () => {
   map.removeInteraction(modify);
   map.removeInteraction(select);
   map.removeInteraction(draw);
@@ -97,7 +97,7 @@ const removeInteractions = () => {
   map.getTargetElement().style.cursor = '';
 }
 
-export const addInteraction = (type) => {
+export const addInteraction = (type, drawStart, drawEnd) => {
   removeInteractions();
 
   switch(type) {
@@ -113,7 +113,15 @@ export const addInteraction = (type) => {
         source: vectorSource,
         type: type,
       });
-    
+
+      if(drawStart !== undefined) {
+        draw.on('drawstart', drawStart);
+      }
+
+      if(drawEnd !== undefined) {
+        draw.on('drawend', drawEnd);
+      }
+
       map.addInteraction(draw);
       map.addInteraction(snap);
       break

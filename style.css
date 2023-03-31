@@ -21,10 +21,13 @@ p, h1, h2, h3, h4, h5, h6 {
   --border-color: rgb(221, 221, 221);
   --icon-green: rgb(0, 128, 0);
   --icon-green-opace: rgb(0, 128, 0, 0.4);
+  --icon-green-opace2x: rgb(0, 128, 0, 0.6);
   --nav-active: rgb(0, 150, 0);
   --nav-hover: rgb(0, 128, 0);
   --nav-bg: rgb(0, 128, 0, 0.4);
+
   --left-sidebar-w: 300px;
+  --left-sidebar-h: 100vh;
 }
 
 #map {
@@ -98,6 +101,10 @@ nav a:active {
   justify-content: center;
 }
 
+.content-between {
+  justify-content: space-between;
+}
+
 .content-end {
   justify-content: end;
 }
@@ -117,7 +124,7 @@ nav a:active {
 .left {
   left: calc(0px - var(--left-sidebar-w));
   top: 108px /*75px<menu-icon-top> + 32px<menu-icon-height> + 1px<skip>)*/;
-  height: 100vh;
+  height: var(--left-sidebar-h);
   width: var(--left-sidebar-w);
   background-color: white;
   padding: 0;
@@ -134,6 +141,11 @@ nav a:active {
   display: none;
 }
 
+.tool-container > div:first-of-type {
+  width: 100%;
+  margin: 5px 0;
+}
+
 .left-hide {
   left: calc(0px - var(--left-sidebar-w));
   transition: left .5s ease;
@@ -142,10 +154,11 @@ nav a:active {
 .left-narrow {
   left: 0px;
   transition: left .5s ease;
-  background-color: var(--icon-green-opace);
+  background-color: var(--icon-green-opace2x);
 }
 
 .left-narrow .tool-container {
+  margin-top: 42px;
   display: flex;
 }
 
@@ -155,6 +168,14 @@ nav a:active {
 
 .left-narrow .row > :last-child {
   display: none;
+}
+
+.left-narrow .row:hover, .left-narrow .row.head .icon:hover {
+  background-color: white !important;
+}
+
+.selected {
+  background-color: white;
 }
 
 .left-show {
