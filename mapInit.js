@@ -2,8 +2,9 @@ import {Map, View} from 'ol';
 import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer.js';
 import {OSM, Vector as VectorSource, XYZ} from 'ol/source';
 import {Modify, Select, Snap} from 'ol/interaction';
-import { defaultStyle, modifyStyle } from './mapSyles';
+import { defaultStyle, modifyStyle, provinceSelectedStyle, provinceStyle, selectStyle } from './mapSyles';
 import { styleFunction } from './mapFunctions';
+import {click, pointerMove} from 'ol/events/condition.js';
 
 
 const googleMap = new TileLayer({
@@ -36,11 +37,25 @@ const measureLayer = new VectorLayer({
   }
 });
 
-export const select = new Select();
 
+export const provinceLayerSource = new VectorSource({wrapX: false});
+
+const provinceLayer = new VectorLayer({
+  source: provinceLayerSource,
+  title: 'Provinces',
+  visible: true,
+  style: provinceStyle,
+});
+
+export const modifySelect = new Select();
+
+export const provinceSelectClick = new Select({
+  condition: click,
+  style: provinceSelectedStyle,
+});
 
 export const modify = new Modify({
-  features: select.getFeatures(),
+  features: modifySelect.getFeatures(),
   style: modifyStyle,
 });
 
@@ -52,14 +67,14 @@ export const measureSnap = new Snap({
   source: measureSource,
 });
 
-export const mapLayers = [googleMap, vector, measureLayer];
+export const mapLayers = [googleMap, vector, measureLayer, provinceLayer];
 
 export const map = new Map({
   target: 'map',
   layers: mapLayers,
   view: new View({
-    center: [1000000, 6000000],
-    zoom: 5
+    center: [-8800000, 9500000],
+    zoom: 4
   }),
   controls: []
 });

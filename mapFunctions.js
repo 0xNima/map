@@ -1,7 +1,8 @@
 import {Draw} from 'ol/interaction';
 import {getArea, getLength} from 'ol/sphere.js';
 import {LineString, Point} from 'ol/geom.js';
-import {map, modify, measureSource, vectorSource, select, snap} from './mapInit';
+import {GeoJSON} from 'ol/format.js';
+import {map, modify, measureSource, vectorSource, modifySelect, snap, provinceLayerSource, provinceSelectClick} from './mapInit';
 import { segmentStyle, style, labelStyle, tipStyle, modifyStyle} from "./mapSyles";
 
 
@@ -22,7 +23,7 @@ const formatLength = function (line) {
     }
     return output;
 };
-  
+
 const formatArea = function (polygon) {
     const area = getArea(polygon);
     let output;
@@ -91,20 +92,32 @@ export function styleFunction(feature, drawType, tip) {
 
 export const removeInteractions = () => {
   map.removeInteraction(modify);
-  map.removeInteraction(select);
+  map.removeInteraction(modifySelect);
+  map.removeInteraction(provinceSelectClick);
   map.removeInteraction(draw);
-  map.removeInteraction(select);
   map.getTargetElement().style.cursor = '';
 }
 
-export const addInteraction = (type, drawStart, drawEnd) => {
+export const addInteraction = (type, options) => {
   removeInteractions();
 
   switch(type) {
-    case 'Select':
+    case 'ModifySelect':
       map.getTargetElement().style.cursor = 'pointer';
-      map.addInteraction(select);
+      map.addInteraction(modifySelect);
+      if('onselect' in options ) {
+        modifySelect.removeEventListener('select');
+        modifySelect.on('select', (e) => options.onselect(e));
+      }
       break;
+    case 'ProvinceSelect':
+      map.getTargetElement().style.cursor = 'pointer';
+      map.addInteraction(provinceSelectClick);
+      if('onselect' in options ) {
+        provinceSelectClick.removeEventListener('select');
+        provinceSelectClick.on('select', (e) => options.onselect(e));
+      }
+      break
     case 'Point':
     case 'LineString':
     case 'Polygon':
@@ -114,13 +127,9 @@ export const addInteraction = (type, drawStart, drawEnd) => {
         type: type,
       });
 
-      if(drawStart !== undefined) {
-        draw.on('drawstart', drawStart);
-      }
+      if('drawStart' in options) draw.on('drawstart', options.drawStart);
 
-      if(drawEnd !== undefined) {
-        draw.on('drawend', drawEnd);
-      }
+      if('drawEnd' in options) draw.on('drawend', options.drawEnd);
 
       map.addInteraction(draw);
       map.addInteraction(snap);
@@ -166,5 +175,16 @@ export const addInteraction = (type, drawStart, drawEnd) => {
       break
     default:
       break
+  }
+}
+
+
+export const addProvinces = (geoJsonData) => {
+  for(const data of geoJsonData) {
+    provinceLayerSource.addFeatures(
+      new GeoJSON({
+        featureProjection: 'EPSG:3857'
+      }).readFeatures(data)
+    );
   }
 }

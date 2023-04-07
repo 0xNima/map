@@ -87,63 +87,65 @@ const drawScript = (() => {
         tool.addEventListener('click', () => {
             selection(tool, '.toolset a', 'draw-selected');
 
-            addInteraction(type, undefined, (e) => {
-                const labelText = prompt('Enter Label');
-
-                const node = document.createElement('div');
-                const id = Date.now();
-
-                node.classList.add('visible');
-
-                const label = new Overlay({
-                    positioning: 'bottom-center',
-                    element: node,
-                    offset: [0, 0],
-                    id: id
-                });
-                
-                const map = e.target.getMap();
-
-                map.addOverlay(label);
-
-                const feature = e.feature;
-                const geometry = feature.getGeometry();
-                
-                feature.setId(id);
-
-                let labelPoint = null;
-
-                switch(geometry.getType()) {
-                    case 'Point':
-                        labelPoint = geometry.getCoordinates();
-                        break
-                    case 'LineString':
-                        labelPoint = geometry.getFlatMidpoint();
-                        break
-                    case 'Polygon':
-                        labelPoint = geometry.getInteriorPoint().getCoordinates();
-                        break
-                    case 'Circle':
-                        labelPoint = geometry.getCenter();
-                        break
+            addInteraction(type, {
+                drawEnd: (e) => {
+                    const labelText = prompt('Enter Label');
+    
+                    const node = document.createElement('div');
+                    const id = Date.now();
+    
+                    node.classList.add('visible');
+    
+                    const label = new Overlay({
+                        positioning: 'bottom-center',
+                        element: node,
+                        offset: [0, 0],
+                        id: id
+                    });
+                    
+                    const map = e.target.getMap();
+    
+                    map.addOverlay(label);
+    
+                    const feature = e.feature;
+                    const geometry = feature.getGeometry();
+                    
+                    feature.setId(id);
+    
+                    let labelPoint = null;
+    
+                    switch(geometry.getType()) {
+                        case 'Point':
+                            labelPoint = geometry.getCoordinates();
+                            break
+                        case 'LineString':
+                            labelPoint = geometry.getFlatMidpoint();
+                            break
+                        case 'Polygon':
+                            labelPoint = geometry.getInteriorPoint().getCoordinates();
+                            break
+                        case 'Circle':
+                            labelPoint = geometry.getCenter();
+                            break
+                    }
+                    
+                    const content = `<div class="label-text">${labelText}</div>`;
+                    
+                    const visible = true;
+                    
+                    label.setPosition(labelPoint);
+                    label.getElement().innerHTML = content;
+                    
+                    const value = [labelText, visible];
+                    drwaStore.setDefault('labels', new Map()).set(id, value);
+    
+                    layersContainer.appendChild(
+                        createLabel(id, labelText, visible, onChecked.bind([value, node]))
+                    );
+                    
+                    trash.removeAttribute('disable');
+                    trash.classList.add('trash');
                 }
-                
-                const content = `<div class="label-text">${labelText}</div>`;
-                
-                const visible = true;
-                
-                label.setPosition(labelPoint);
-                label.getElement().innerHTML = content;
-                
-                const value = [labelText, visible];
-                drwaStore.setDefault('labels', new Map()).set(id, value);
-
-                layersContainer.appendChild(
-                    createLabel(id, labelText, visible, onChecked.bind([value, node]))
-                );
-                
-                trash.removeAttribute('disable');
-                trash.classList.add('trash');
             });
         });
     }

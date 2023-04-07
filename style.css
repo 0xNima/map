@@ -28,6 +28,8 @@ p, h1, h2, h3, h4, h5, h6 {
 
   --left-sidebar-w: 300px;
   --left-sidebar-h: 100vh;
+  --right-sidebar-w: 300px;
+  --right-sidebar-h: 100vh;
 }
 
 #map {
@@ -73,6 +75,11 @@ nav a:active {
 
 .menu {
   left: 0;
+  top: 75px;
+}
+
+.query-panel-menu {
+  right: 0;
   top: 75px;
 }
 
@@ -129,6 +136,7 @@ nav a:active {
   background-color: white;
   padding: 0;
   z-index: 10;
+  transition: .5s ease;
 }
 
 .tool-container {
@@ -144,11 +152,6 @@ nav a:active {
 .tool-container > div:first-of-type {
   width: 100%;
   margin: 5px 0;
-}
-
-.left-hide {
-  left: calc(0px - var(--left-sidebar-w));
-  transition: left .5s ease;
 }
 
 .left-narrow {
@@ -217,6 +220,8 @@ nav a:active {
   z-index: 5;
 
   background-color: var(--icon-green);
+
+  color: white;
 }
 
 .row.head .below-title {
@@ -233,20 +238,43 @@ svg {
   padding: 4px;
 }
 
-.menu svg {
+.menu svg, .query-panel-menu svg {
   background-color: var(--icon-green-opace);
 }
 
-.menu svg:hover {
+.menu svg:hover, .query-panel-menu svg:hover {
   background-color: var(--icon-green);
-
   cursor: pointer;
 }
 
-.menu svg:active {
+.menu svg:active, .query-panel-menu svg:active {
   background-color: var(--nav-active);
 }
 
 svg:hover path {
  /* fill: var(--icon-green); */
+}
+
+.right {
+  right: calc(0px - var(--right-sidebar-w));
+  top: 108px /*75px<menu-icon-top> + 32px<menu-icon-height> + 1px<skip>)*/;
+  height: var(--right-sidebar-h);
+  width: var(--right-sidebar-w);
+  background-color: white;
+  padding: 0;
+  z-index: 10;
+
+  transition: .5s ease;
+
+  gap: 10px;
+}
+
+.right-show {
+  right: 0px;
+  transition: .5 ease;
+}
+
+.selection {
+  width: 80%;
+  padding: 0 10%;
 }

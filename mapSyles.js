@@ -133,3 +133,36 @@ export const segmentStyle = new Style({
       }),
     }),
 });
+
+export const provinceStyle = new Style({
+  stroke: new Stroke({
+    color: 'black',
+    width: 2
+  }),
+  fill: new Fill({
+    color: 'rgba(0, 0, 0, 0.2)'
+  }),
+  image: new CircleStyle({
+    radius: 10,
+    fill: null,
+    stroke: new Stroke({
+      color: 'black'
+    })
+  })
+});
+
+export const provinceSelectedStyle = new Style({
+  fill: new Fill({
+    color: 'rgba(0, 0, 0, 0.5)',
+  }),
+  stroke: new Stroke({
+    color: 'green',
+    width: 2,
+  }),
+});
+
+export const selectStyle = (feature) => {
+  const color = feature.get('COLOR') || '#eeeeee';
+  provinceSelectedStyle.getFill().setColor(color);
+  return provinceSelectedStyle;
+}
