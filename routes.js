@@ -5,7 +5,7 @@ import { createLabel, selection } from "./miscs";
 import { store } from './store';
 
 // create store
-store.bulk_create(['map', 'catalog', 'filter', 'measure', 'draw']);
+store.bulk_create(['map', 'catalog', 'filter', 'measure', 'draw', 'main']);
 
 export const routes = [
     'pages/help.html', 'pages/map.html', 'pages/catalog.html', 'pages/filter.html', 'pages/measure.html',

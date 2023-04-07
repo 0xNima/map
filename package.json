@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "ol": "latest",
-    "olcs": "^2.13.1"
+    "olcs": "^2.13.1",
+    "uuid": "^9.0.0"
   }
 }

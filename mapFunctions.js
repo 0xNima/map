@@ -4,8 +4,8 @@ import {LineString, Point} from 'ol/geom.js';
 import {GeoJSON} from 'ol/format.js';
 import {map, modify, measureSource, vectorSource, modifySelect, snap, provinceLayerSource, provinceSelectClick} from './mapInit';
 import { segmentStyle, style, labelStyle, tipStyle, modifyStyle} from "./mapSyles";
-
-
+import {v4} from 'uuid';
+import { PersistMap } from './miscs';
 
 export let draw = null;
 export let tipPoint = null;
@@ -93,7 +93,6 @@ export function styleFunction(feature, drawType, tip) {
 export const removeInteractions = () => {
   map.removeInteraction(modify);
   map.removeInteraction(modifySelect);
-  map.removeInteraction(provinceSelectClick);
   map.removeInteraction(draw);
   map.getTargetElement().style.cursor = '';
 }
@@ -180,6 +179,11 @@ export const addInteraction = (type, options) => {
 
 
 export const addProvinces = (geoJsonData) => {
+  const oldFeatures = provinceLayerSource.getFeatures();
+  for(const feature of oldFeatures) {
+    provinceLayerSource.removeFeature(feature);
+  }
+
   for(const data of geoJsonData) {
     provinceLayerSource.addFeatures(
       new GeoJSON({
@@ -187,4 +191,48 @@ export const addProvinces = (geoJsonData) => {
       }).readFeatures(data)
     );
   }
+
+  for(const feature of provinceLayerSource.getFeatures()) {
+    feature.setId(v4());
+  }
+};
+
+export const provinceFromFeatures = () => {
+  const provinces = new Map();
+
+  for(const feature of provinceLayerSource.getFeatures()) {
+    const {prov_name_en, prov_area_code, prov_code} = feature.getProperties(); 
+    
+    provinces.set(
+      prov_name_en[0], 
+      [prov_area_code, prov_code[0]]
+    );
+  }
+
+  return provinces
+};
+
+
+export const featuresFromProvince = () => {
+  const map = new PersistMap();
+
+  for(const feature of provinceLayerSource.getFeatures()) {
+    const {prov_code} = feature.getProperties(); 
+    
+    map.setDefault(prov_code[0], []).push(feature.getId());
+  }
+
+  return map
+}
+
+export const selectFeatures = (featuresIds) => {
+  if (!featuresIds) {
+    provinceSelectClick.getFeatures().clear(); // clear previous selections
+    return
+  }
+  
+  const features = featuresIds.map(id => provinceLayerSource.getFeatureById(id));
+
+  provinceSelectClick.getFeatures().clear(); // clear previous selections
+  features.forEach(feature => provinceSelectClick.getFeatures().push(feature));
 }

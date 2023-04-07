@@ -141,13 +141,6 @@ export const provinceStyle = new Style({
   }),
   fill: new Fill({
     color: 'rgba(0, 0, 0, 0.2)'
-  }),
-  image: new CircleStyle({
-    radius: 10,
-    fill: null,
-    stroke: new Stroke({
-      color: 'black'
-    })
   })
 });
 

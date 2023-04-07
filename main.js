@@ -3,8 +3,8 @@ import './pages.css';
 
 import {vectorSource, mapLayers, measureSource, map} from './mapInit';
 import { createLayer, selection } from './miscs';
-import { addInteraction, addProvinces, draw, removeInteractions } from './mapFunctions';
-import { fetchCountries, fetchGeodataList, loadFiles, sendQuery } from './api';
+import { addInteraction, addProvinces, draw, featuresFromProvince, provinceFromFeatures, removeInteractions, selectFeatures } from './mapFunctions';
+import { fetchCountries, fetchGeodataList, fetchIndicators, loadFiles, sendQuery } from './api';
 import { routes, initScripts } from './routes';
 import {store} from './store';
 
@@ -17,7 +17,9 @@ const rows = document.querySelectorAll('.row[data-type]');
 const toolContainer = document.querySelector('.tool-container');
 const sidebarHome = document.querySelector('.left .row.head .icon');
 const dateInputs = document.querySelectorAll('input[type="date"]');
-const country = document.querySelector('select[name="country"');
+const country = document.querySelector('select[name="country"]');
+const province = document.querySelector('select[name="province"]');
+const indicator = document.querySelector('select[name="indicator"]');
 
 const today = new Date();
 
@@ -89,15 +91,45 @@ map.on('loadstart', () => {
   document.querySelector('.content').style.display = "block";
 });
 
+province.addEventListener('change', (e) => {
+  const provinceCode = e.target.value;
+  const ffp = store.get('main').get('ffp').get(provinceCode);
+
+  selectFeatures(ffp);
+});
 
 country.addEventListener('change', async (e) => {
   const countryCode = e.target.value;
-  const geoDataList = await fetchGeodataList(countryCode);
-  const geoJsonData = await loadFiles(geoDataList);
+  
+  fetchGeodataList(countryCode)
+  .then(geoDataList => loadFiles(geoDataList))
+  .then(geoJsonData => addProvinces(geoJsonData))
+  .then(_ => {
+    const map = featuresFromProvince();
+    store.get('main').put('ffp', map);
+  })
+  .then(_ => {
+    const provinces = provinceFromFeatures();
 
-  addProvinces(geoJsonData);
+    const firstChild = province.firstElementChild; // <option>-</option>
 
-  addInteraction('ProvinceSelect', {
+    while(province.firstElementChild) {
+      province.removeChild(province.firstElementChild);
+    }
+    
+    if(firstChild) {
+      province.appendChild(firstChild);
+    }
+
+    for(const [prov, info] of provinces) {
+      const option = document.createElement('option');
+      option.textContent = prov;
+      option.name = info[0];
+      option.value = info[1];
+      province.appendChild(option)
+    }
+  })
+  .then(_ => addInteraction('ProvinceSelect', {
     onselect: (e) => {
       const features = e.selected;
       const data = [];
@@ -106,15 +138,24 @@ country.addEventListener('change', async (e) => {
         data.push(feature.getProperties())
       }
     }
-  });
+  }));
 });
 
 (async () => {
   const countris = await fetchCountries();
+  const indicators = await fetchIndicators();
+
   for(const {code, name} of countris) {
     const option = document.createElement('option');
     option.textContent = name;
     option.value = code;
     country.appendChild(option);
+  }
+
+  for(const {type, name} of indicators) {
+    const option = document.createElement('option');
+    option.textContent = name;
+    option.value = type;
+    indicator.appendChild(option);
   }
 })()
