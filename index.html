@@ -117,16 +117,16 @@
 
         <div class="selection flex items-center content-between">
           <label for="country">Country:</label>
-          <select name="country">
-            <option>-</option>
+          <select name="country" required form="query-form">
+            <option></option>
             <!-- fill from server -->
           </select>
         </div>
 
         <div class="selection flex items-center content-between">
           <label for="province">Province:</label>
-          <select name="province">
-            <option>-</option>
+          <select name="province" required form="query-form">
+            <option></option>
             <!-- fill from server -->
           </select>
         </div>
@@ -135,20 +135,19 @@
 
         <div class="selection flex items-center content-between">
           <label for="from-date">From:</label>
-          <input type="date" name="from-date">
+          <input type="date" name="from-date" required form="query-form">
         </div>
 
         <div class="selection flex items-center content-between">
           <label for="to-date">To:</label>
-          <input type="date" name="to-date">
+          <input type="date" name="to-date" required form="query-form">
         </div>
 
         <span><!-- only for empty gap --></span>
 
         <div class="selection flex items-center content-between">
           <label for="indicator">Indicator:</label>
-          <select name="indicator">
-            <option>-</option>
+          <select name="indicator" required form="query-form">
             <!-- fille from server -->
           </select>
         </div>
@@ -156,7 +155,9 @@
         <span><!-- only for empty gap --></span>
 
         <div class="selection flex items-center content-between">
-          <button class="query-btn">Send Query</button>
+          <form id="query-form">
+            <input type="submit" value="Send Query">
+          </form>
         </div>
       </aside>
     </div>

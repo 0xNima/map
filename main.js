@@ -16,16 +16,11 @@ const rightSideBar = document.querySelector('.right');
 const rows = document.querySelectorAll('.row[data-type]');
 const toolContainer = document.querySelector('.tool-container');
 const sidebarHome = document.querySelector('.left .row.head .icon');
-const dateInputs = document.querySelectorAll('input[type="date"]');
 const country = document.querySelector('select[name="country"]');
 const province = document.querySelector('select[name="province"]');
 const indicator = document.querySelector('select[name="indicator"]');
+const form = document.getElementById("query-form");
 
-const today = new Date();
-
-for(const input of dateInputs) {
-  input.valueAsDate = today;
-}
 
 // add menu click listener
 document.querySelector('.menu').addEventListener('click', () => {
@@ -111,7 +106,7 @@ country.addEventListener('change', async (e) => {
   .then(_ => {
     const provinces = provinceFromFeatures();
 
-    const firstChild = province.firstElementChild; // <option>-</option>
+    const firstChild = province.firstElementChild; // <option></option>
 
     while(province.firstElementChild) {
       province.removeChild(province.firstElementChild);
@@ -131,14 +126,27 @@ country.addEventListener('change', async (e) => {
   })
   .then(_ => addInteraction('ProvinceSelect', {
     onselect: (e) => {
-      const features = e.selected;
-      const data = [];
-
-      for(const feature of features) {
-        data.push(feature.getProperties())
-      }
+      const feature = e.selected[0];
+      province.querySelector(`option[value="${feature.get("prov_code")[0]}"]`).selected = true;
     }
   }));
+});
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const formData = new FormData(form);
+  const data = {};
+  
+  for(const [k, v] of formData) {
+    if(k == 'from-date' || k == 'to-date') {
+      data[k] = new Date(v).getTime();
+      continue
+    }
+    data[k] = v;
+  }
+
+  await sendQuery(data);
 });
 
 (async () => {
