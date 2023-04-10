@@ -2,14 +2,17 @@ import './style.css';
 import './pages.css';
 
 import {vectorSource, mapLayers, measureSource, map} from './mapInit';
-import { createLayer, selection } from './miscs';
+import { createLayer, selection, writeToStorage } from './miscs';
 import { addInteraction, addProvinces, draw, featuresFromProvince, provinceFromFeatures, removeInteractions, selectFeatures } from './mapFunctions';
-import { fetchCountries, fetchGeodataList, fetchIndicators, loadFiles, sendQuery } from './api';
+import { checkToken, checkTokenController, fetchCountries, fetchGeodataList, fetchIndicators, loadFiles, sendQuery } from './api';
 import { routes, initScripts } from './routes';
 import {store} from './store';
 
 
 let toolToggled = 0;
+let authorized = false;
+let hasPending = false;
+let authorizerId = null;
 
 const leftSideBar = document.querySelector('.left');
 const rightSideBar = document.querySelector('.right');
@@ -20,6 +23,46 @@ const country = document.querySelector('select[name="country"]');
 const province = document.querySelector('select[name="province"]');
 const indicator = document.querySelector('select[name="indicator"]');
 const form = document.getElementById("query-form");
+
+
+// check token function
+const authorizer = async () => {
+  clearTimeout(authorizerId);
+
+  if(hasPending && checkTokenController) { // it means there is a pending request
+    checkTokenController.abort;
+    checkTokenController = null;
+  }
+
+  hasPending = true;
+
+  try {
+    const response = await checkToken();
+
+    if(response.status === 200) {
+      authorized = true;
+      hasPending = false;
+      writeToStorage('authorized', 1);
+      return
+    } else if (response.status === 401) {
+      clearTimeout(authorizerId);
+      alert('Session Expired');
+    }
+  } catch {}
+
+  hasPending = false;
+  writeToStorage('authorized', 0);
+}
+
+// check token scheduler
+const scheduler = () => setTimeout(async () => {
+  await authorizer();
+  authorizerId = scheduler();
+}, 10000);
+
+authorizer().then(() => {
+  authorizerId = scheduler();
+});
 
 
 // add menu click listener

@@ -1,0 +1,49 @@
+.login {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 70px;
+
+    margin: auto;
+}
+
+.login form {
+    gap: 50px;
+
+    background-color: var(--icon-green-opace);
+    border-radius: 10px;
+
+    height: 40%;
+
+    padding: 0 100px;
+}
+
+.login form > div:first-of-type {
+    gap: 20px;
+}
+
+.login form input {
+    width: 280px;
+    height: 25px;
+
+    border: none;
+}
+
+.login form input[type="submit"] {
+    width: 150px;
+    height: 30px;
+
+    border-radius: 5px;
+
+}
+
+.login form input[type="submit"]:hover {
+    background-color: var(--icon-green-opace);
+    color: white;
+}
+
+.login form input[type="submit"]:active {
+    background-color: var(--icon-green);
+    color: white;
+}

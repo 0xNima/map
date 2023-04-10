@@ -97,3 +97,22 @@ export const createLabel = (id, title, checked, onChecked) => {
 
   return node;
 }
+
+
+export const writeToStorage = (key, value) => {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+export const readtFromStorage = (key, defaultValue) => {
+  const value = localStorage.getItem(key);
+
+  if(value) {
+    return JSON.parse(value);
+  }
+
+  if(defaultValue) {
+    localStorage.setItem(key, JSON.stringify(defaultValue));
+  }
+
+  return defaultValue
+}

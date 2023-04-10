@@ -1,0 +1,123 @@
+body {
+    font-family: "Open Sans", sans-serif;
+}
+  
+html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+}
+  
+p, h1, h2, h3, h4, h5, h6 {
+    padding: 0;
+    margin: 0;
+}
+
+:root {
+    --drawer-width: 300px;
+    --border-color: rgb(221, 221, 221);
+    --icon-green: rgb(0, 128, 0);
+    --icon-green-opace: rgb(0, 128, 0, 0.4);
+    --icon-green-opace2x: rgb(0, 128, 0, 0.6);
+    --nav-active: rgb(0, 150, 0);
+    --nav-hover: rgb(0, 128, 0);
+    --nav-bg: rgb(0, 128, 0, 0.4);
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    
+    width: 100%;
+    height: 70px;
+    
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+  
+    background-color: var(--nav-bg);
+}
+  
+nav > div:first-child {
+    width: 50%;
+    height: 100%;
+}
+  
+nav > div:first-child > div:first-child {
+    height: 100%;
+}
+  
+nav a {
+    color: white;
+  
+    padding: 0 10px;
+    height: 100%;
+  
+    display: flex;
+    align-items: center;
+  
+    text-decoration: none;
+}
+  
+nav a:hover {
+    background-color: var(--nav-hover);
+  
+    cursor: pointer;
+}
+  
+nav a:active {
+    background-color: var(--nav-active);
+}
+  
+nav a:visited {
+    color: white;
+}
+  
+nav img {
+    width: auto;
+    height: 100%;
+  
+    padding: 0 10px;
+}
+
+
+
+.flex {
+    display: flex;
+}
+  
+.flex-column {
+    flex-direction: column;
+}
+  
+.content-start {
+    justify-content: start;
+}
+  
+.content-center {
+    justify-content: center;
+}
+  
+.content-between {
+    justify-content: space-between;
+}
+
+.content-around {
+    justify-content: space-around;
+}
+  
+.content-end {
+    justify-content: end;
+}
+  
+.items-start {
+    align-items: start;
+}
+  
+.items-center {
+    align-items: center;
+}
+  
+.items-end {
+    align-items: end;
+}

@@ -1,5 +1,24 @@
 const BASE_URL = 'http://127.0.0.1:5000';
 
+export let checkTokenController = null;
+
+export const checkToken = () => {
+    checkTokenController = new AbortController();
+
+    return fetch(`${BASE_URL}/api/check/`, {
+        signal: checkTokenController.signal,
+        credentials: 'include'
+    })
+}
+
+export const login = (data) => {
+    return fetch(`${BASE_URL}/api/login/`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        credentials: 'include'
+    })
+}
+
 export const sendQuery = (data) => {
     return fetch(`${BASE_URL}/api/query/`, {
         method: 'POST',

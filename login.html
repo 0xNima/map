@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="https://openlayers.org/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="login.css">
+    <title>Sign in</title>
+  </head>
+  <body>
+    <nav>
+      <div class="flex content-between items-center">
+        <div class="flex">
+          <a href="index.html">Home</a>
+          <a href="#">Dashboard</a>
+          <a>Contact US</a>
+        </div>
+        <img src="images/header-logo.jpg"/>
+      </div>
+    </nav>
+
+    <div class="flex content-center items-center login">
+      <form class="flex flex-column content-center">
+          <div class="flex flex-column">
+            <div>
+              <label for="email">Email:</label>
+              <br>
+              <input type="email" name="email" required>
+            </div>
+  
+            <div>
+              <label for="password">Password:</label>
+              <br>
+              <input type="password" name="password" required>
+            </div>
+          </div>
+
+          <input type="submit">
+      </form>
+    </div>
+    <script type="module" src="login.js"></script>
+  </body>
+</html>

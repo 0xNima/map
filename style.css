@@ -1,31 +1,8 @@
 @import "node_modules/ol/ol.css";
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
-
-body {
-  font-family: "Open Sans", sans-serif;
-}
-
-html, body {
-  margin: 0;
-  height: 100%;
-  overflow: hidden;
-}
-
-p, h1, h2, h3, h4, h5, h6 {
-  padding: 0;
-  margin: 0;
-}
+@import "common.css";
 
 :root {
-  --drawer-width: 300px;
-  --border-color: rgb(221, 221, 221);
-  --icon-green: rgb(0, 128, 0);
-  --icon-green-opace: rgb(0, 128, 0, 0.4);
-  --icon-green-opace2x: rgb(0, 128, 0, 0.6);
-  --nav-active: rgb(0, 150, 0);
-  --nav-hover: rgb(0, 128, 0);
-  --nav-bg: rgb(0, 128, 0, 0.4);
-
   --left-sidebar-w: 300px;
   --left-sidebar-h: 100vh;
   --right-sidebar-w: 300px;
@@ -37,40 +14,6 @@ p, h1, h2, h3, h4, h5, h6 {
   top: 0;
   bottom: 0;
   width: 100%;
-}
-
-nav {
-  position: fixed;
-  top: 0;
-  
-  width: 100%;
-  height: 70px;
-  
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  background-color: var(--nav-bg);
-}
-
-nav a {
-  color: white;
-
-  padding: 0 10px;
-  height: 100%;
-
-  display: flex;
-  align-items: center;
-}
-
-nav a:hover {
-  background-color: var(--nav-hover);
-
-  cursor: pointer;
-}
-
-nav a:active {
-  background-color: var(--nav-active);
 }
 
 .menu {
@@ -90,42 +33,6 @@ nav a:active {
 
 .absolute {
   position: absolute;
-}
-
-.flex {
-  display: flex;
-}
-
-.flex-column {
-  flex-direction: column;
-}
-
-.content-start {
-  justify-content: start;
-}
-
-.content-center {
-  justify-content: center;
-}
-
-.content-between {
-  justify-content: space-between;
-}
-
-.content-end {
-  justify-content: end;
-}
-
-.items-start {
-  align-items: start;
-}
-
-.items-center {
-  align-items: center;
-}
-
-.items-end {
-  align-items: end;
 }
 
 .left {
